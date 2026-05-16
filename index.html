@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novelyne Liem — Mandarin Translator & Tutor</title>
+  <meta name="description" content="Professional Mandarin translator, personal assistant, and certified HSK 6 tutor with 3+ years of experience. Helping students achieve HSK 3–5 and beyond." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-primary:    #FFFDF5;
+      --bg-secondary:  #FFF8E1;
+      --bg-deep:       #1C1A12;
+      --bg-card:       #FFFFFF;
+      --accent-gold:   #D4A017;
+      --accent-amber:  #F0C040;
+      --accent-warm:   #E8B400;
+      --text-primary:  #1C1A12;
+      --text-secondary:#3D3820;
+      --text-muted:    #8A7F5A;
+      --border:        #EAE0B8;
+      --border-gold:   rgba(212,160,23,0.3);
+      --shadow:        0 4px 32px rgba(28,26,18,0.07);
+      --shadow-hover:  0 16px 56px rgba(28,26,18,0.13);
+      --glow:          0 0 40px rgba(212,160,23,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6%;
+      background: rgba(255,253,245,0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 24px rgba(28,26,18,0.09); }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-logo span { color: var(--accent-gold); }
+
+    .nav-links { display: flex; gap: 2.25rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-secondary); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent-gold); }
+
+    .nav-cta {
+      background: var(--accent-gold) !important;
+      color: #fff !important;
+      padding: 0.5rem 1.35rem;
+      border-radius: 3px;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: #B8890F !important; color: #fff !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      padding: 8rem 6% 5rem;
+      gap: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-char {
+      position: absolute;
+      right: -3%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(260px, 28vw, 460px);
+      color: rgba(212,160,23,0.06);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      background: rgba(212,160,23,0.1);
+      border: 1px solid rgba(212,160,23,0.35);
+      color: #9A720A;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 2px;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.15s forwards;
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      background: var(--accent-gold); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5.5vw, 5.8rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--text-primary);
+      margin-bottom: 1.35rem;
+      opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--accent-gold); }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 500px;
+      margin-bottom: 2.25rem;
+      font-weight: 300;
+      opacity: 0; animation: fadeUp 0.8s 0.45s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .btn-primary {
+      background: var(--accent-gold);
+      color: #fff;
+      padding: 0.9rem 2.1rem;
+      border-radius: 3px;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      text-decoration: none;
+      border: 2px solid var(--accent-gold);
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(212,160,23,0.3);
+    }
+    .btn-primary:hover { background: #B8890F; border-color: #B8890F; box-shadow: 0 6px 28px rgba(212,160,23,0.4); }
+
+    .btn-secondary {
+      color: var(--text-primary);
+      padding: 0.9rem 2.1rem;
+      border-radius: 3px;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      text-decoration: none;
+      border: 2px solid var(--border);
+      transition: all 0.25s;
+    }
+    .btn-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+    /* Hero Card */
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; animation: fadeIn 1s 0.75s forwards;
+    }
+
+    .profile-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      width: 100%; max-width: 370px;
+      box-shadow: var(--shadow), var(--glow);
+      position: relative; overflow: hidden;
+    }
+    .profile-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber), var(--accent-gold));
+      background-size: 200%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    .profile-avatar {
+      width: 68px; height: 68px;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700; color: #fff;
+      margin-bottom: 1.1rem;
+    }
+
+    .profile-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 0.15rem;
+    }
+    .profile-role {
+      font-size: 0.78rem; color: var(--text-muted);
+      letter-spacing: 0.07em; text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+    .profile-cn {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.6rem; color: var(--accent-gold);
+      letter-spacing: 0.12em; margin-bottom: 1.25rem;
+    }
+
+    .cert-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: linear-gradient(135deg, #FFF8E1, #FFF3C4);
+      border: 1px solid rgba(212,160,23,0.4);
+      color: #8A6200;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.07em; padding: 0.35rem 0.9rem;
+      border-radius: 20px; margin-bottom: 1.5rem;
+    }
+
+    .profile-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;
+    }
+    .pstat {
+      background: var(--bg-secondary);
+      border-radius: 8px; padding: 0.9rem;
+      text-align: center;
+    }
+    .pstat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem; font-weight: 700;
+      color: var(--accent-gold); line-height: 1;
+    }
+    .pstat-label {
+      font-size: 0.65rem; color: var(--text-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* ─── STATS STRIP ─── */
+    .stats-strip {
+      background: var(--bg-deep);
+      padding: 3.5rem 6%;
+    }
+    .stats-inner {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; max-width: 1100px; margin: 0 auto; text-align: center;
+    }
+    .stat-item { padding: 0.75rem; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 3.5vw, 3.8rem);
+      font-weight: 700; color: var(--accent-amber); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem; color: rgba(255,255,255,0.45);
+      letter-spacing: 0.07em; text-transform: uppercase; margin-top: 0.5rem;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 6rem 6%; }
+
+    .section-label {
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent-gold);
+      display: flex; align-items: center; gap: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+    .section-label::before {
+      content: ''; width: 26px; height: 2px;
+      background: var(--accent-gold);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      font-weight: 700; line-height: 1.12;
+      color: var(--text-primary); margin-bottom: 1.1rem;
+    }
+    .section-divider {
+      width: 44px; height: 3px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
+      border-radius: 2px; margin-bottom: 1.5rem;
+    }
+
+    /* ─── ABOUT ─── */
+    .about { background: var(--bg-primary); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.3fr;
+      gap: 6rem; align-items: start; max-width: 1100px; margin: 0 auto;
+    }
+
+    .about-text p {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--text-secondary); margin-bottom: 1.25rem; font-weight: 300;
+    }
+    .about-text strong { color: var(--text-primary); font-weight: 600; }
+
+    .highlight-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.85rem; }
+    .highlight-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.1rem 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: 6px;
+      transition: box-shadow 0.25s;
+    }
+    .highlight-item:hover { box-shadow: var(--shadow); }
+    .highlight-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .highlight-text { font-size: 0.875rem; line-height: 1.65; color: var(--text-secondary); }
+    .highlight-text strong { display: block; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 0.15rem; }
+
+    /* HSK Bar Card */
+    .lang-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.25rem;
+    }
+    .lang-card-title {
+      font-size: 0.7rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.35rem;
+      font-weight: 600;
+    }
+    .hsk-levels { display: flex; flex-direction: column; gap: 0.7rem; }
+    .hsk-row { display: flex; align-items: center; gap: 0.75rem; }
+    .hsk-label {
+      font-size: 0.77rem; font-weight: 700;
+      color: var(--text-secondary); width: 42px; flex-shrink: 0;
+    }
+    .hsk-bar-wrap {
+      flex: 1; background: var(--bg-secondary);
+      border-radius: 3px; height: 8px; overflow: hidden;
+    }
+    .hsk-bar {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
+      width: 0; transition: width 1.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .hsk-note {
+      font-size: 0.68rem; color: var(--text-muted);
+      width: 72px; text-align: right; flex-shrink: 0;
+    }
+
+    /* Timeline card */
+    .timeline-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 10px; padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+    .timeline-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding-bottom: 1.25rem; margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .timeline-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+    .timeline-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 5px;
+    }
+    .tl-title { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+    .tl-sub { font-size: 0.77rem; color: var(--text-muted); margin-top: 0.15rem; }
+
+    /* ─── SERVICES ─── */
+    .services { background: var(--bg-secondary); }
+    .services-header { max-width: 580px; margin-bottom: 3.5rem; }
+
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; max-width: 1100px;
+    }
+
+    .service-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2.25rem;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+      cursor: default;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s;
+    }
+    .service-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+    .service-card:hover::after { transform: scaleX(1); }
+
+    .service-card.featured {
+      background: linear-gradient(145deg, var(--bg-deep) 0%, #2A2616 100%);
+      border-color: rgba(212,160,23,0.35);
+      box-shadow: var(--shadow), 0 0 60px rgba(212,160,23,0.1);
+    }
+    .service-card.featured::after { display: none; }
+    .service-card.featured .service-icon { background: rgba(212,160,23,0.15); }
+    .service-card.featured .service-name { color: #fff; }
+    .service-card.featured .service-desc { color: rgba(255,255,255,0.65); }
+    .service-card.featured .service-feature { color: rgba(255,255,255,0.55); }
+    .service-card.featured .service-feature::before { color: var(--accent-amber); }
+    .service-card.featured:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover), 0 0 80px rgba(212,160,23,0.15); }
+
+    .service-icon {
+      width: 50px; height: 50px;
+      background: rgba(212,160,23,0.1);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.35rem;
+    }
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 0.65rem; line-height: 1.25;
+    }
+    .service-desc {
+      font-size: 0.875rem; line-height: 1.75;
+      color: var(--text-secondary); margin-bottom: 1.25rem; font-weight: 300;
+    }
+    .service-features { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .service-feature {
+      font-size: 0.8rem; color: var(--text-muted);
+      display: flex; align-items: flex-start; gap: 0.5rem;
+    }
+    .service-feature::before { content: '✦'; color: var(--accent-gold); flex-shrink: 0; font-size: 0.6rem; margin-top: 3px; }
+
+    /* ─── APPROACH ─── */
+    .approach { background: var(--bg-primary); }
+    .approach-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center; max-width: 1100px;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 2.5rem; }
+    .step {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 1.5rem; position: relative; padding-bottom: 2.25rem;
+    }
+    .step:last-child { padding-bottom: 0; }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute; left: 27px; top: 56px; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.25rem; font-weight: 700; color: #fff;
+      flex-shrink: 0; position: relative; z-index: 1;
+      box-shadow: 0 4px 16px rgba(212,160,23,0.35);
+    }
+    .step-content { padding-top: 0.8rem; }
+    .step-title { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.35rem; }
+    .step-desc { font-size: 0.875rem; line-height: 1.75; color: var(--text-muted); font-weight: 300; }
+
+    .approach-quote-card {
+      background: var(--bg-deep);
+      border-radius: 12px;
+      padding: 3rem;
+      position: relative; overflow: hidden;
+    }
+    .approach-quote-card::before {
+      content: '"';
+      position: absolute; top: -1rem; left: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 12rem; color: rgba(212,160,23,0.08);
+      line-height: 1; pointer-events: none;
+    }
+    .approach-quote-card blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.45rem; font-style: italic;
+      color: rgba(255,255,255,0.9); line-height: 1.65;
+      margin-bottom: 1.75rem; position: relative; z-index: 1;
+    }
+    .approach-quote-card cite {
+      font-size: 0.78rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em; text-transform: uppercase; font-style: normal;
+    }
+
+    .cn-chars-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem; margin-top: 2.5rem;
+    }
+    .cn-char-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 8px; padding: 1rem 0.5rem; text-align: center;
+    }
+    .cn-char {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.75rem; color: var(--accent-amber); display: block;
+    }
+    .cn-meaning {
+      font-size: 0.62rem; color: rgba(255,255,255,0.35);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.35rem;
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { background: var(--bg-secondary); }
+    .testimonials-header { max-width: 560px; margin-bottom: 3.5rem; }
+
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; max-width: 1100px;
+    }
+
+    .tcard {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 2rem;
+      position: relative; transition: all 0.3s;
+    }
+    .tcard:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+    .tcard::before {
+      content: '"';
+      position: absolute; top: 0.75rem; right: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 4.5rem; color: rgba(212,160,23,0.12); line-height: 1;
+    }
+    .stars { display: flex; gap: 0.2rem; margin-bottom: 1rem; }
+    .star { color: var(--accent-amber); font-size: 0.88rem; }
+    .ttext {
+      font-size: 0.9rem; line-height: 1.8;
+      color: var(--text-secondary); font-style: italic;
+      font-weight: 300; margin-bottom: 1.5rem;
+    }
+    .tauthor-name { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); }
+    .tauthor-detail { font-size: 0.74rem; color: var(--text-muted); margin-top: 0.1rem; }
+    .hsk-tag {
+      display: inline-block; margin-top: 0.55rem;
+      background: rgba(212,160,23,0.1);
+      border: 1px solid rgba(212,160,23,0.3);
+      color: #8A6200;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; padding: 0.2rem 0.65rem; border-radius: 20px;
+    }
+
+    .achievement-banner {
+      margin-top: 2.5rem;
+      padding: 1.75rem 2rem;
+      background: linear-gradient(135deg, #fff 0%, #FFF8E1 100%);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent-gold);
+      border-radius: 8px;
+      max-width: 680px;
+      display: flex; align-items: center; gap: 1.5rem;
+      box-shadow: 0 4px 20px rgba(212,160,23,0.1);
+    }
+    .achievement-icon { font-size: 2.2rem; flex-shrink: 0; }
+    .achievement-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .achievement-sub { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--bg-deep) 0%, #2A2616 60%, #1C1A12 100%);
+      padding: 7rem 6%;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-section::before {
+      content: '学';
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(200px, 28vw, 420px);
+      color: rgba(212,160,23,0.04);
+      pointer-events: none;
+    }
+    .cta-section::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212,160,23,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section .section-label { justify-content: center; color: rgba(255,255,255,0.5); }
+    .cta-section .section-label::before { background: rgba(255,255,255,0.25); }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 800; color: #fff; line-height: 1.1;
+      margin-bottom: 1.25rem; position: relative; z-index: 1;
+    }
+    .cta-title em { font-style: italic; color: var(--accent-amber); }
+    .cta-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.6);
+      max-width: 500px; margin: 0 auto 2.75rem;
+      line-height: 1.8; font-weight: 300; position: relative; z-index: 1;
+    }
+    .cta-buttons {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+      color: var(--bg-deep);
+      padding: 0.95rem 2.4rem;
+      border-radius: 4px; font-size: 0.84rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; border: none;
+      transition: all 0.25s;
+      box-shadow: 0 6px 28px rgba(212,160,23,0.4);
+    }
+    .btn-gold:hover { box-shadow: 0 10px 40px rgba(212,160,23,0.55); transform: translateY(-2px); }
+    .btn-outline-w {
+      color: rgba(255,255,255,0.85);
+      padding: 0.95rem 2.4rem;
+      border-radius: 4px; font-size: 0.84rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      transition: all 0.25s;
+    }
+    .btn-outline-w:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg-deep);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2.75rem 6%;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700; color: #fff;
+    }
+    .footer-logo span { color: var(--accent-amber); }
+    .footer-tagline { font-size: 0.75rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.25rem; }
+    .footer-nav { display: flex; gap: 2rem; list-style: none; }
+    .footer-nav a {
+      font-size: 0.77rem; color: rgba(255,255,255,0.4);
+      text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--accent-amber); }
+    .footer-copy { font-size: 0.73rem; color: rgba(255,255,255,0.2); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.8); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; padding-top: 7rem; }
+      .hero-bg-char { display: none; }
+      .hero-visual { display: none; }
+      .about-grid, .approach-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .cn-chars-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 580px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .footer-nav { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Novelyne <span>Liem</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#testimonials">Students</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Session</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-char">华</div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Mandarin Specialist · HSK 6 Certified
+    </div>
+    <h1 class="hero-title">
+      Bridging<br>Language.<br>
+      <em>Building Fluency.</em>
+    </h1>
+    <p class="hero-sub">
+      Professional Mandarin translator with 3+ years of experience as a personal assistant — now dedicated to guiding students toward genuine Mandarin proficiency, from foundational literacy to advanced HSK mastery.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a Session</a>
+      <a href="#services" class="btn-secondary">View Services</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="profile-card">
+      <div class="profile-avatar">NL</div>
+      <div class="profile-name">Novelyne Liem</div>
+      <div class="profile-role">Mandarin Translator &amp; Tutor</div>
+      <div class="profile-cn">廖若仪</div>
+      <div class="cert-pill">✦ HSK Level 6 Certified</div>
+      <div class="profile-stats">
+        <div class="pstat">
+          <div class="pstat-num" data-count="10">0</div>
+          <div class="pstat-label">Students Taught</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">3+</div>
+          <div class="pstat-label">Years Experience</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">100%</div>
+          <div class="pstat-label">HSK Pass Rate</div>
+        </div>
+        <div class="pstat">
+          <div class="pstat-num">HSK 6</div>
+          <div class="pstat-label">Certified Level</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num" data-count="10">0</div>
+      <div class="stat-label">Students Successfully Guided</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Years Professional Experience</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">HSK Examination Pass Rate</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">HSK 6</div>
+      <div class="stat-label">Highest Certification Held</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <div class="section-label">About</div>
+      <h2 class="section-title">A Professional Foundation in Language &amp; Communication</h2>
+      <div class="section-divider"></div>
+      <div class="about-text">
+        <p>
+          Novelyne Liem is an experienced <strong>Mandarin translator and professional personal assistant</strong> with over three years of dedicated service across diverse professional environments. Her career has been defined by precision, cultural fluency, and the ability to communicate complex ideas clearly across linguistic boundaries.
+        </p>
+        <p>
+          Having attained <strong>HSK Level 6 certification</strong> — the highest standard of Mandarin proficiency recognized internationally — Novelyne possesses both the academic grounding and real-world language expertise required to guide learners from foundational competency to advanced mastery.
+        </p>
+        <p>
+          Today, Novelyne channels her professional expertise into <strong>personalized Mandarin instruction</strong>, offering structured, goal-oriented lessons for students seeking genuine, measurable proficiency. Her approach combines rigorous methodology with practical application rooted in years of professional translation work.
+        </p>
+      </div>
+
+      <div class="highlight-list">
+        <div class="highlight-item">
+          <div class="highlight-icon">🎓</div>
+          <div class="highlight-text">
+            <strong>HSK 6 Certified</strong>
+            Holder of the highest internationally recognized Mandarin proficiency certification — equivalent to native-level academic and professional competence.
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">🗣️</div>
+          <div class="highlight-text">
+            <strong>3+ Years as Mandarin Translator</strong>
+            Extensive professional experience providing accurate, culturally nuanced translation across business and professional contexts.
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">📈</div>
+          <div class="highlight-text">
+            <strong>100% Student HSK Pass Rate</strong>
+            Every student under Novelyne's guidance has successfully passed their HSK examination — from HSK 3 through HSK 5 — with comprehensive scores.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="lang-card">
+        <div class="lang-card-title">HSK Proficiency Coverage</div>
+        <div class="hsk-levels">
+          <div class="hsk-row">
+            <span class="hsk-label">HSK 1</span>
+            <div class="hsk-bar-wrap"><div class="hsk-bar" data-width="100%"></div></div>
+            <span class="hsk-note">Beginner</span>
+          </div>
+          <div class="hsk-row">
+            <span class="hsk-label">HSK 2</span>
+            <div class="hsk-bar-wrap"><div class="hsk-bar" data-width="100%"></div></div>
+            <span class="hsk-note">Elementary</span>
+          </div>
+          <div class="hsk-row">
+            <span class="hsk-label">HSK 3</span>
+            <div class="hsk-bar-wrap"><div class="hsk-bar" data-width="95%"></div></div>
+            <span class="hsk-note">Intermediate</span>
+          </div>
+          <div class="hsk-row">
+            <span class="hsk-label">HSK 4</span>
+            <div class="hsk-bar-wrap"><div class="hsk-bar" data-width="92%"></div></div>
+            <span class="hsk-note">Upper-Int.</span>
+          </div>
+          <div class="hsk-row">
+            <span class="hsk-label">HSK 5</span>
+            <div class="hsk-bar-wrap"><div class="hsk-bar" data-width="88%"></div></div>
+            <span class="hsk-note">Advanced</span>
+          </div>
+          <div class="hsk-row">
+            <span class="hsk-label">HSK 6</span>
+            <div class="hsk-bar-wrap"><div class="hsk-bar" data-width="100%"></div></div>
+            <span class="hsk-note" style="color:var(--accent-gold);font-weight:700;">Certified ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-card">
+        <div class="lang-card-title" style="margin-bottom:0;padding-bottom:1.25rem;border-bottom:1px solid var(--border);">Professional Background</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--accent-gold);"></div>
+            <div>
+              <div class="tl-title">Mandarin Translator</div>
+              <div class="tl-sub">3+ years · Professional &amp; Business Contexts</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:var(--accent-amber);"></div>
+            <div>
+              <div class="tl-title">Personal Assistant</div>
+              <div class="tl-sub">3+ years · Executive &amp; Administrative Support</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot" style="background:#7AB648;"></div>
+            <div>
+              <div class="tl-title">Mandarin Tutor</div>
+              <div class="tl-sub">Current · 10+ students · 100% HSK pass rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <div class="section-label">Services</div>
+    <h2 class="section-title">Professional Mandarin Instruction &amp; Language Services</h2>
+    <div class="section-divider"></div>
+    <p style="font-size:1rem;color:var(--text-secondary);line-height:1.8;font-weight:300;">
+      Each service is tailored to the learner's goals, pace, and target proficiency level — grounded in structured methodology and real-world language expertise.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">📖</div>
+      <div class="service-name">HSK Examination Preparation</div>
+      <div class="service-desc">Structured, goal-oriented preparation for HSK 3, 4, and 5 examinations with systematic curriculum and proven results.</div>
+      <ul class="service-features">
+        <li class="service-feature">Covers HSK 3 through HSK 5 levels</li>
+        <li class="service-feature">Mock examinations &amp; targeted feedback</li>
+        <li class="service-feature">100% pass rate among all students</li>
+        <li class="service-feature">Flexible session scheduling</li>
+      </ul>
+    </div>
+
+    <div class="service-card featured reveal">
+      <div class="service-icon">🌟</div>
+      <div class="service-name">Advanced Mandarin Tutoring</div>
+      <div class="service-desc">Intensive instruction for learners pursuing HSK 5, HSK 6 preparation, or professional-level Mandarin competency — taught by a certified HSK 6 professional.</div>
+      <ul class="service-features">
+        <li class="service-feature">Advanced grammar &amp; idiomatic usage</li>
+        <li class="service-feature">Business and professional Mandarin</li>
+        <li class="service-feature">Complex reading &amp; classical references</li>
+        <li class="service-feature">Taught by HSK 6 certified specialist</li>
+      </ul>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🎯</div>
+      <div class="service-name">Beginner Mandarin Foundation</div>
+      <div class="service-desc">Patient, methodical introduction to Mandarin for complete beginners — covering Pinyin, tones, vocabulary, and conversational essentials.</div>
+      <ul class="service-features">
+        <li class="service-feature">Pinyin pronunciation &amp; tonal mastery</li>
+        <li class="service-feature">Essential vocabulary &amp; sentences</li>
+        <li class="service-feature">HSK 1 &amp; HSK 2 foundational content</li>
+        <li class="service-feature">Structured, encouraging environment</li>
+      </ul>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🔄</div>
+      <div class="service-name">Mandarin Translation Services</div>
+      <div class="service-desc">Professional Mandarin–Indonesian or Mandarin–English translation for documents, business correspondence, and professional contexts.</div>
+      <ul class="service-features">
+        <li class="service-feature">Business documents &amp; correspondence</li>
+        <li class="service-feature">Mandarin ↔ Indonesian &amp; English</li>
+        <li class="service-feature">Culturally informed accuracy</li>
+        <li class="service-feature">3+ years professional experience</li>
+      </ul>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">💬</div>
+      <div class="service-name">Conversational Mandarin Coaching</div>
+      <div class="service-desc">Focus on spoken fluency and real-world conversational confidence for daily life, travel, or professional social environments.</div>
+      <ul class="service-features">
+        <li class="service-feature">Speaking &amp; listening drills</li>
+        <li class="service-feature">Real-life situational role-play</li>
+        <li class="service-feature">Tone correction &amp; refinement</li>
+        <li class="service-feature">Cultural context &amp; etiquette</li>
+      </ul>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🏢</div>
+      <div class="service-name">Business Mandarin for Professionals</div>
+      <div class="service-desc">Specialized Mandarin instruction for professionals operating with Chinese-speaking clients, partners, or colleagues in business contexts.</div>
+      <ul class="service-features">
+        <li class="service-feature">Business vocabulary &amp; formal registers</li>
+        <li class="service-feature">Meeting, negotiation &amp; presentation</li>
+        <li class="service-feature">Professional written communication</li>
+        <li class="service-feature">Rooted in 3+ years as executive assistant</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach" id="approach">
+  <div class="approach-grid">
+    <div class="reveal">
+      <div class="section-label">Teaching Approach</div>
+      <h2 class="section-title">Structure. Consistency. Measurable Progress.</h2>
+      <div class="section-divider"></div>
+      <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.8;font-weight:300;margin-bottom:0.5rem;">
+        Every student receives a structured, individualized learning path designed to build genuine competency — not just test-readiness. The methodology is grounded in professional translation experience and proven pedagogical principles.
+      </p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">一</div>
+          <div class="step-content">
+            <div class="step-title">Assessment &amp; Goal Setting</div>
+            <div class="step-desc">Initial consultation to evaluate the student's current level, define clear objectives, and establish a realistic timeline toward their target HSK level or proficiency goal.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">二</div>
+          <div class="step-content">
+            <div class="step-title">Structured Curriculum Design</div>
+            <div class="step-desc">A personalized study plan covering vocabulary, grammar patterns, character recognition, listening comprehension, and speaking — sequenced for maximum retention.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">三</div>
+          <div class="step-content">
+            <div class="step-title">Consistent Instruction &amp; Practice</div>
+            <div class="step-desc">Regular sessions combining direct instruction, interactive exercises, and review cycles — reinforcing knowledge through repetition and progressive challenge.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">四</div>
+          <div class="step-content">
+            <div class="step-title">Examination Readiness &amp; Certification</div>
+            <div class="step-desc">Targeted mock tests, timed practice, and exam-strategy coaching before HSK examinations — ensuring students sit their test fully prepared and confident.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="approach-quote-card">
+        <blockquote>
+          "Language is not merely a tool for communication — it is the foundation of understanding between cultures, businesses, and people."
+        </blockquote>
+        <cite>— Novelyne Liem, Mandarin Translator &amp; Tutor</cite>
+        <div class="cn-chars-grid">
+          <div class="cn-char-box"><span class="cn-char">学</span><div class="cn-meaning">Learn</div></div>
+          <div class="cn-char-box"><span class="cn-char">习</span><div class="cn-meaning">Practice</div></div>
+          <div class="cn-char-box"><span class="cn-char">进</span><div class="cn-meaning">Progress</div></div>
+          <div class="cn-char-box"><span class="cn-char">通</span><div class="cn-meaning">Mastery</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="testimonials-header reveal">
+    <div class="section-label">Student Results</div>
+    <h2 class="section-title">Every Student. Every Examination. Passed.</h2>
+    <div class="section-divider"></div>
+    <p style="font-size:0.95rem;color:var(--text-secondary);line-height:1.8;font-weight:300;">
+      More than 10 students have successfully achieved their HSK certification under Novelyne's guidance — across intermediate, upper-intermediate, and advanced proficiency levels.
+    </p>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="tcard reveal">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="ttext">"Novelyne's structured approach made what seemed like an overwhelming exam feel entirely manageable. She identified exactly where I needed to improve and built a clear path forward. I passed HSK 4 on my first attempt."</p>
+      <div>
+        <div class="tauthor-name">Anita S.</div>
+        <div class="tauthor-detail">Working Professional, Jakarta</div>
+        <span class="hsk-tag">HSK 4 — Passed</span>
+      </div>
+    </div>
+    <div class="tcard reveal">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="ttext">"I came to Novelyne with very basic knowledge and a goal to pass HSK 3 within six months. Her patience, expertise, and systematic teaching style made it possible. I not only passed — I exceeded the passing score."</p>
+      <div>
+        <div class="tauthor-name">Budi R.</div>
+        <div class="tauthor-detail">University Student</div>
+        <span class="hsk-tag">HSK 3 — Passed</span>
+      </div>
+    </div>
+    <div class="tcard reveal">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="ttext">"HSK 5 is no small undertaking. Novelyne's deep knowledge of the language — not just exam format — gave me a genuine understanding that carried through to the test. Her professional background makes a real difference."</p>
+      <div>
+        <div class="tauthor-name">Mei L.</div>
+        <div class="tauthor-detail">Business Executive</div>
+        <span class="hsk-tag">HSK 5 — Passed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="achievement-banner reveal">
+    <div class="achievement-icon">🏆</div>
+    <div>
+      <div class="achievement-title">100% Comprehensive HSK Pass Rate</div>
+      <div class="achievement-sub">All 10+ students taught by Novelyne Liem have successfully passed their HSK examinations — across HSK 3, HSK 4, and HSK 5 — with comprehensive passing scores.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="section-label">Get Started</div>
+  <h2 class="cta-title">Begin Your<br><em>Mandarin Journey</em></h2>
+  <p class="cta-sub">Whether you're a complete beginner or preparing for advanced HSK certification, Novelyne Liem offers structured, professional instruction designed to deliver real, measurable results.</p>
+  <div class="cta-buttons">
+    <a href="mailto:novelyne@email.com" class="btn-gold">Contact Novelyne</a>
+    <a href="https://www.linkedin.com/in/novelyne-liem-58a893249/" target="_blank" class="btn-outline-w">View LinkedIn Profile</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Novelyne <span>Liem</span></div>
+    <div class="footer-tagline">Mandarin Translator &amp; Certified HSK Tutor</div>
+  </div>
+  <ul class="footer-nav">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#testimonials">Students</a></li>
+    <li><a href="https://www.linkedin.com/in/novelyne-liem-58a893249/" target="_blank">LinkedIn</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Novelyne Liem. All rights reserved.</div>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  // Animate HSK bars
+  const barObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.hsk-bar').forEach(bar => {
+          setTimeout(() => { bar.style.width = bar.dataset.width; }, 200);
+        });
+        barObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.lang-card').forEach(c => barObs.observe(c));
+
+  // Count-up
+  function countUp(el) {
+    const target = parseInt(el.dataset.count);
+    if (isNaN(target)) return;
+    let count = 0;
+    const step = target / (1500 / 16);
+    const timer = setInterval(() => {
+      count = Math.min(count + step, target);
+      el.textContent = Math.floor(count) + '+';
+      if (count >= target) clearInterval(timer);
+    }, 16);
+  }
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('[data-count]').forEach(countUp);
+        countObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.stats-strip, .hero-visual').forEach(s => countObs.observe(s));
+</script>
+
+</body>
+</html>
