@@ -39,6 +39,82 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ─── CUSTOM CURSOR ─── */
+    @media (hover: hover) and (pointer: fine) {
+      body { cursor: none; }
+      a, button, .service-card, .tcard, .hsk-badge, .hamburger, input, textarea { cursor: none; }
+      .cursor-dot, .cursor-ring {
+        position: fixed; top: 0; left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        will-change: transform;
+      }
+      .cursor-dot {
+        width: 6px; height: 6px;
+        background: var(--accent-gold);
+        border-radius: 50%;
+        transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+      }
+      .cursor-ring {
+        width: 32px; height: 32px;
+        border: 1.5px solid rgba(212,160,23,0.55);
+        border-radius: 50%;
+        transition: width 0.25s cubic-bezier(.2,.8,.2,1), height 0.25s cubic-bezier(.2,.8,.2,1), border-color 0.2s, background 0.2s;
+        mix-blend-mode: multiply;
+      }
+      body.cursor-hover .cursor-ring {
+        width: 56px; height: 56px;
+        border-color: var(--accent-gold);
+        background: rgba(212,160,23,0.08);
+      }
+      body.cursor-hover .cursor-dot { width: 4px; height: 4px; opacity: 0.6; }
+      body.cursor-down .cursor-ring { width: 24px; height: 24px; }
+    }
+
+    /* ─── DYNAMIC BACKGROUND LAYERS (scoped inside hero) ─── */
+    .bg-stage {
+      position: absolute; inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg-dotgrid {
+      position: absolute; inset: -2px;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(212,160,23,0.15) 1px, transparent 1.5px);
+      background-size: 26px 26px;
+      mask-image: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 55%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 55%, transparent 80%);
+      opacity: 0.9;
+    }
+    .bg-blob {
+      position: absolute;
+      width: 60vw; height: 60vw; max-width: 900px; max-height: 900px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.6;
+      will-change: transform;
+    }
+    .bg-blob.b1 {
+      background: radial-gradient(circle, rgba(240,192,64,0.55) 0%, rgba(240,192,64,0) 65%);
+      top: -20vw; left: -16vw;
+      animation: drift1 22s ease-in-out infinite alternate;
+    }
+    .bg-blob.b2 {
+      background: radial-gradient(circle, rgba(212,160,23,0.4) 0%, rgba(212,160,23,0) 65%);
+      bottom: -18vw; right: -14vw;
+      animation: drift2 28s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(8vw, 6vh) scale(1.15); }
+    }
+    @keyframes drift2 {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-6vw, -4vh) scale(0.9); }
+    }
+
     /* ─── NAV ─── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -83,10 +159,10 @@
     .hero {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.15fr 0.85fr;
       align-items: center;
       padding: 8rem 6% 5rem;
-      gap: 5rem;
+      gap: 4rem;
       position: relative;
       overflow: hidden;
     }
@@ -125,14 +201,33 @@
 
     .hero-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 5.5vw, 5.8rem);
+      font-size: clamp(3rem, 5.8vw, 6rem);
       font-weight: 800;
-      line-height: 1.05;
+      line-height: 1.1;
       color: var(--text-primary);
       margin-bottom: 1.35rem;
-      opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+      letter-spacing: -0.02em;
     }
     .hero-title em { font-style: italic; color: var(--accent-gold); }
+
+    /* Kinetic word reveal — mask region given padding + negative margin
+       so descenders and italic overhang aren't clipped. */
+    .kinetic {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+      padding: 0.15em 0.08em 0.25em;
+      margin: -0.15em -0.08em -0.25em;
+    }
+    .kinetic > span {
+      display: inline-block;
+      transform: translateY(110%);
+      animation: kineticUp 0.9s cubic-bezier(.2,.85,.2,1) forwards;
+    }
+    @keyframes kineticUp {
+      from { transform: translateY(110%); }
+      to   { transform: translateY(0); }
+    }
 
     .hero-sub {
       font-size: 1.05rem;
@@ -175,54 +270,108 @@
     }
     .btn-secondary:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
 
-    /* Hero Card */
+    /* Hero Card — asymmetric */
     .hero-visual {
       position: relative; z-index: 1;
       display: flex; justify-content: center; align-items: center;
       opacity: 0; animation: fadeIn 1s 0.75s forwards;
+      transform: translateY(-1.5rem);
     }
 
     .profile-card {
       background: #fff;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2.5rem;
-      width: 100%; max-width: 370px;
+      border-radius: 14px;
+      padding: 2.5rem 2.25rem 2rem;
+      width: 100%; max-width: 400px;
       box-shadow: var(--shadow), var(--glow);
-      position: relative; overflow: hidden;
+      position: relative;
+      text-align: center;
+      transform: rotate(-1.5deg);
+      transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
     }
+    .profile-card:hover { transform: rotate(0deg) translateY(-4px); }
     .profile-card::before {
       content: '';
       position: absolute; top: 0; left: 0; right: 0; height: 4px;
       background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber), var(--accent-gold));
       background-size: 200%;
       animation: shimmer 3s linear infinite;
+      border-radius: 14px 14px 0 0;
     }
 
+    /* BIG avatar with concentric rings */
+    .profile-avatar-wrap {
+      position: relative;
+      width: 168px; height: 168px;
+      margin: 0.5rem auto 1.5rem;
+    }
+    .profile-avatar-wrap::before,
+    .profile-avatar-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(212,160,23,0.35);
+      animation: ringPulse 3s ease-out infinite;
+    }
+    .profile-avatar-wrap::after { animation-delay: 1.5s; }
+    @keyframes ringPulse {
+      0%   { transform: scale(1);   opacity: 0.8; }
+      80%  { transform: scale(1.35); opacity: 0; }
+      100% { transform: scale(1.35); opacity: 0; }
+    }
     .profile-avatar {
-      width: 68px; height: 68px;
+      position: relative;
+      width: 140px; height: 140px;
+      margin: 14px;
       background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem; font-weight: 700; color: #fff;
-      margin-bottom: 1.1rem;
+      font-size: 3.6rem; font-weight: 700; color: #fff;
+      box-shadow: 0 12px 32px rgba(212,160,23,0.4), inset 0 -8px 24px rgba(0,0,0,0.12);
+      letter-spacing: -0.02em;
+      z-index: 1;
+    }
+    .profile-avatar::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.5) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .profile-status-dot {
+      position: absolute;
+      right: 8px; bottom: 8px;
+      width: 22px; height: 22px;
+      background: #7AB648;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      z-index: 2;
+      box-shadow: 0 0 0 0 rgba(122,182,72,0.6);
+      animation: statusPulse 2s infinite;
+    }
+    @keyframes statusPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(122,182,72,0.6); }
+      70%  { box-shadow: 0 0 0 10px rgba(122,182,72,0); }
+      100% { box-shadow: 0 0 0 0 rgba(122,182,72,0); }
     }
 
     .profile-name {
       font-family: 'Playfair Display', serif;
-      font-size: 1.55rem; font-weight: 700;
-      color: var(--text-primary); margin-bottom: 0.15rem;
+      font-size: 1.7rem; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 0.2rem;
     }
     .profile-role {
-      font-size: 0.78rem; color: var(--text-muted);
-      letter-spacing: 0.07em; text-transform: uppercase;
-      margin-bottom: 1.1rem;
+      font-size: 0.74rem; color: var(--text-muted);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 0.9rem;
     }
     .profile-cn {
       font-family: 'Noto Serif SC', serif;
-      font-size: 1.6rem; color: var(--accent-gold);
-      letter-spacing: 0.12em; margin-bottom: 1.25rem;
+      font-size: 1.55rem; color: var(--accent-gold);
+      letter-spacing: 0.18em; margin-bottom: 1.1rem;
+      font-weight: 600;
     }
 
     .cert-pill {
@@ -236,42 +385,126 @@
     }
 
     .profile-stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;
     }
     .pstat {
       background: var(--bg-secondary);
-      border-radius: 8px; padding: 0.9rem;
+      border-radius: 8px; padding: 0.85rem 0.5rem;
       text-align: center;
+      border: 1px solid rgba(212,160,23,0.12);
     }
     .pstat-num {
       font-family: 'Playfair Display', serif;
-      font-size: 1.9rem; font-weight: 700;
+      font-size: 1.75rem; font-weight: 700;
       color: var(--accent-gold); line-height: 1;
     }
     .pstat-label {
-      font-size: 0.65rem; color: var(--text-muted);
-      letter-spacing: 0.06em; text-transform: uppercase;
-      margin-top: 0.25rem;
+      font-size: 0.6rem; color: var(--text-muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-top: 0.3rem; font-weight: 600;
     }
 
-    /* ─── STATS STRIP ─── */
+    /* Floating accent chips around card */
+    .float-chip {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .float-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-gold); }
+    .float-chip.fc1 {
+      top: -18px; left: -38px;
+      transform: rotate(-4deg);
+      animation: float1 6s ease-in-out infinite;
+    }
+    .float-chip.fc2 {
+      bottom: 32px; right: -32px;
+      transform: rotate(3deg);
+      animation: float1 7s ease-in-out infinite reverse;
+    }
+    .float-chip.fc2 .dot { background: #7AB648; animation: pulse 2s infinite; }
+    @keyframes float1 {
+      0%,100% { translate: 0 0; }
+      50%     { translate: 0 -10px; }
+    }
+
+    /* ─── STATS STRIP (dashboard style) ─── */
     .stats-strip {
       background: var(--bg-deep);
       padding: 3.5rem 6%;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-strip::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(212,160,23,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,160,23,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 70%);
+      pointer-events: none;
     }
     .stats-inner {
       display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 2rem; max-width: 1100px; margin: 0 auto; text-align: center;
+      gap: 2rem; max-width: 1100px; margin: 0 auto;
+      position: relative; z-index: 1;
     }
-    .stat-item { padding: 0.75rem; }
+    .stat-item {
+      padding: 1rem 0.5rem;
+      border-left: 1px solid rgba(212,160,23,0.18);
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .stat-item:first-child { border-left: none; padding-left: 0.5rem; }
+    .stat-tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 0.62rem; color: rgba(212,160,23,0.7);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .stat-tag::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent-amber);
+      box-shadow: 0 0 8px var(--accent-amber);
+      animation: pulse 2s infinite;
+    }
     .stat-num {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.6rem, 3.5vw, 3.8rem);
+      font-size: clamp(2.6rem, 3.5vw, 3.6rem);
       font-weight: 700; color: var(--accent-amber); line-height: 1;
+      letter-spacing: -0.02em;
     }
     .stat-label {
-      font-size: 0.75rem; color: rgba(255,255,255,0.45);
-      letter-spacing: 0.07em; text-transform: uppercase; margin-top: 0.5rem;
+      font-size: 0.74rem; color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-top: 0.6rem; line-height: 1.4;
+    }
+    .stat-bar {
+      margin-top: 0.85rem;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .stat-bar-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
+      border-radius: 2px;
+      transition: width 1.8s cubic-bezier(.2,.8,.2,1);
+      box-shadow: 0 0 12px rgba(240,192,64,0.5);
     }
 
     /* ─── SECTION BASE ─── */
@@ -707,6 +940,18 @@
     .footer-nav a:hover { color: var(--accent-amber); }
     .footer-copy { font-size: 0.73rem; color: rgba(255,255,255,0.2); }
 
+    /* Magnetic hover */
+    .magnetic { transition: transform 0.25s cubic-bezier(.2,.8,.2,1); will-change: transform; }
+
+    /* Reveal title kinetic — used when section comes into view */
+    .reveal-title .kinetic > span {
+      transform: translateY(110%);
+      animation: none;
+    }
+    .reveal-title.visible .kinetic > span {
+      animation: kineticUp 0.9s cubic-bezier(.2,.85,.2,1) forwards;
+    }
+
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
@@ -789,6 +1034,9 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 960px) {
+      .cursor-dot, .cursor-ring { display: none; }
+      .float-chip { display: none; }
+
       .nav-links { display: none; }
       .hamburger { display: flex; }
 
@@ -897,6 +1145,10 @@
 </head>
 <body>
 
+<!-- CUSTOM CURSOR -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">Novelyne <span>Liem</span></a>
@@ -923,6 +1175,11 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-dotgrid"></div>
+    <div class="bg-blob b1"></div>
+    <div class="bg-blob b2"></div>
+  </div>
   <div class="hero-bg-char">华</div>
 
   <div class="hero-content">
@@ -930,22 +1187,28 @@
       <div class="hero-badge-dot"></div>
       Mandarin Specialist · HSK 6 Certified
     </div>
-    <h1 class="hero-title">
-      Bridging<br>Language.<br>
-      <em>Building Fluency.</em>
+    <h1 class="hero-title" id="heroTitle">
+      <span class="kinetic" style="animation-delay:0s"><span style="animation-delay:.05s">Bridging</span></span><br>
+      <span class="kinetic"><span style="animation-delay:.2s">Language.</span></span><br>
+      <em><span class="kinetic"><span style="animation-delay:.4s">Building&nbsp;</span></span><span class="kinetic"><span style="animation-delay:.55s">Fluency.</span></span></em>
     </h1>
     <p class="hero-sub">
       Professional Mandarin translator with 3+ years of experience as a personal assistant — now dedicated to guiding students toward genuine Mandarin proficiency, from foundational literacy to advanced HSK mastery.
     </p>
     <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Book a Session</a>
-      <a href="#services" class="btn-secondary">View Services</a>
+      <a href="#contact" class="btn-primary magnetic">Book a Session</a>
+      <a href="#services" class="btn-secondary magnetic">View Services</a>
     </div>
   </div>
 
   <div class="hero-visual">
     <div class="profile-card">
-      <div class="profile-avatar">NL</div>
+      <div class="float-chip fc1"><span class="dot"></span>HSK 6 · 高级</div>
+      <div class="float-chip fc2"><span class="dot"></span>Available for booking</div>
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar">NL</div>
+        <div class="profile-status-dot" title="Available"></div>
+      </div>
       <div class="profile-name">Novelyne Liem</div>
       <div class="profile-role">Mandarin Translator &amp; Tutor</div>
       <div class="profile-cn">林美玲</div>
@@ -976,20 +1239,28 @@
 <div class="stats-strip">
   <div class="stats-inner">
     <div class="stat-item reveal">
+      <div class="stat-tag">01 / Students</div>
       <div class="stat-num" data-count="10">0</div>
       <div class="stat-label">Students Successfully Guided</div>
+      <div class="stat-bar"><div class="stat-bar-fill" data-fill="100"></div></div>
     </div>
     <div class="stat-item reveal">
+      <div class="stat-tag">02 / Experience</div>
       <div class="stat-num">3+</div>
       <div class="stat-label">Years Professional Experience</div>
+      <div class="stat-bar"><div class="stat-bar-fill" data-fill="75"></div></div>
     </div>
     <div class="stat-item reveal">
+      <div class="stat-tag">03 / Pass rate</div>
       <div class="stat-num">100%</div>
       <div class="stat-label">HSK Examination Pass Rate</div>
+      <div class="stat-bar"><div class="stat-bar-fill" data-fill="100"></div></div>
     </div>
     <div class="stat-item reveal">
+      <div class="stat-tag">04 / Level</div>
       <div class="stat-num">HSK 6</div>
       <div class="stat-label">Highest Certification Held</div>
+      <div class="stat-bar"><div class="stat-bar-fill" data-fill="100"></div></div>
     </div>
   </div>
 </div>
@@ -1323,7 +1594,96 @@
 </footer>
 
 <script>
-  // Navbar scroll effect
+  // ─── CUSTOM CURSOR ───
+  (function() {
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (!fine) return;
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let rx = mx, ry = my;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    document.addEventListener('mousedown', () => document.body.classList.add('cursor-down'));
+    document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-down'));
+    function tick() {
+      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      requestAnimationFrame(tick);
+    }
+    tick();
+    const hoverSel = 'a, button, .service-card, .tcard, .hsk-badge, .profile-card, .pstat';
+    document.querySelectorAll(hoverSel).forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+  })();
+
+  // ─── MAGNETIC BUTTONS ───
+  document.querySelectorAll('.magnetic').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2;
+      const y = e.clientY - r.top - r.height / 2;
+      el.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+
+  // ─── KINETIC SECTION TITLES ───
+  // Wrap each word of every .section-title and .cta-title so they slide up on reveal.
+  function wrapTitleWords(el) {
+    if (el.dataset.kinetic === 'done') return;
+    el.dataset.kinetic = 'done';
+    const html = el.innerHTML;
+    // Walk top-level child nodes; wrap each word in text nodes.
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    function process(node) {
+      const out = document.createDocumentFragment();
+      node.childNodes.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = child.textContent;
+          const parts = text.split(/(\s+)/);
+          parts.forEach(part => {
+            if (part.trim().length === 0) { out.appendChild(document.createTextNode(part)); return; }
+            const k = document.createElement('span');
+            k.className = 'kinetic';
+            const inner = document.createElement('span');
+            inner.textContent = part;
+            k.appendChild(inner);
+            out.appendChild(k);
+          });
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          const clone = child.cloneNode(false);
+          clone.appendChild(process(child));
+          out.appendChild(clone);
+        }
+      });
+      return out;
+    }
+    el.innerHTML = '';
+    el.appendChild(process(tmp));
+  }
+  document.querySelectorAll('.section-title, .cta-title').forEach(t => {
+    wrapTitleWords(t);
+    t.classList.add('reveal-title');
+  });
+  const titleObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        // Stagger word animation delays
+        const spans = e.target.querySelectorAll('.kinetic > span');
+        spans.forEach((s, i) => { s.style.animationDelay = (i * 0.06) + 's'; });
+        e.target.classList.add('visible');
+        titleObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.reveal-title').forEach(el => titleObs.observe(el));
+
+  // ─── Navbar scroll effect ───
   window.addEventListener('scroll', () => {
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
   });
@@ -1374,6 +1734,11 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.querySelectorAll('[data-count]').forEach(countUp);
+        // Fill any progress bars inside this region
+        entry.target.querySelectorAll('.stat-bar-fill').forEach((bar, i) => {
+          const pct = bar.dataset.fill || 100;
+          setTimeout(() => { bar.style.width = pct + '%'; }, 200 + i * 150);
+        });
         countObs.unobserve(entry.target);
       }
     });
