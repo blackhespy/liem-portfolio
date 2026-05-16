@@ -863,81 +863,175 @@
 
     /* ─── STUDENT DOCUMENTATION ─── */
     .student-docs { background: var(--bg-primary); }
-    .student-docs-header { max-width: 620px; margin-bottom: 3.5rem; }
+    .student-docs-header { max-width: 620px; margin-bottom: 3rem; }
 
-    .docs-grid {
+    .doc-cards-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: start;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
       max-width: 1100px;
     }
 
-    .doc-story {
-      display: flex; flex-direction: column; gap: 1.5rem;
-    }
-    .doc-story-text {
-      font-size: 1rem; line-height: 1.85;
-      color: var(--text-secondary); font-weight: 300;
-    }
-    .doc-story-text strong { color: var(--text-primary); font-weight: 600; }
-
-    .doc-detail-cards {
-      display: flex; flex-direction: column; gap: 0.85rem;
-    }
-    .doc-detail-card {
-      display: flex; align-items: flex-start; gap: 1rem;
-      padding: 1.1rem 1.25rem;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--accent-gold);
-      border-radius: 6px;
-    }
-    .doc-detail-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.05rem; }
-    .doc-detail-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.15rem; }
-    .doc-detail-sub { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
-
-    .doc-image-col { position: relative; }
-
-    .doc-image-frame {
+    .doc-card {
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.25rem;
-      box-shadow: var(--shadow), var(--glow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
       position: relative;
     }
-    .doc-image-frame::before {
+    .doc-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+    .doc-card::before {
       content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
-      border-radius: 12px 12px 0 0;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s;
     }
-    .doc-image-label {
-      font-size: 0.68rem; font-weight: 700;
+    .doc-card:hover::before { transform: scaleX(1); }
+
+    .doc-card-thumb {
+      width: 100%; height: 180px;
+      object-fit: cover; display: block;
+      background: var(--bg-secondary);
+    }
+    .doc-card-thumb-placeholder {
+      width: 100%; height: 180px;
+      background: linear-gradient(135deg, var(--bg-secondary), #FFF3C4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .doc-card-body { padding: 1.25rem; }
+    .doc-card-tag {
+      font-size: 0.65rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted); margin-bottom: 0.85rem;
-      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--accent-gold); margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: 0.4rem;
     }
-    .doc-image-label::before {
-      content: ''; width: 6px; height: 6px;
+    .doc-card-tag::before {
+      content: ''; width: 5px; height: 5px;
       background: var(--accent-gold); border-radius: 50%;
     }
-    .doc-image-frame img {
-      width: 100%; border-radius: 6px;
-      display: block;
+    .doc-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text-primary); line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+    .doc-card-desc {
+      font-size: 0.8rem; line-height: 1.65;
+      color: var(--text-muted); font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    .doc-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    .doc-card-meta { font-size: 0.72rem; color: var(--text-muted); }
+    .doc-card-cta {
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--accent-gold); letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 0.3rem;
+      text-transform: uppercase;
+    }
+    .doc-card-cta::after { content: '→'; }
+
+    /* ─── MODAL ─── */
+    .doc-modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(28,26,18,0.75);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .doc-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .doc-modal {
+      background: #fff;
+      border-radius: 16px;
+      width: 100%; max-width: 780px;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(28,26,18,0.3);
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.2,0.8,0.2,1);
+      position: relative;
+    }
+    .doc-modal-overlay.open .doc-modal { transform: translateY(0) scale(1); }
+
+    .doc-modal-header {
+      position: sticky; top: 0;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 10;
+      border-radius: 16px 16px 0 0;
+    }
+    .doc-modal-header-left { display: flex; flex-direction: column; gap: 0.2rem; }
+    .doc-modal-tag {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-gold);
+    }
+    .doc-modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--text-primary);
+    }
+    .doc-modal-close {
+      width: 36px; height: 36px;
+      border-radius: 50%; border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; color: var(--text-muted);
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .doc-modal-close:hover { background: var(--accent-gold); color: #fff; border-color: var(--accent-gold); }
+
+    .doc-modal-images {
+      display: grid; gap: 0.75rem; padding: 1.5rem;
+    }
+    .doc-modal-images.two-col { grid-template-columns: 1fr 1fr; }
+    .doc-modal-images.one-col { grid-template-columns: 1fr; }
+    .doc-modal-images img {
+      width: 100%; border-radius: 8px;
       border: 1px solid var(--border);
+      display: block;
     }
-    .doc-image-caption {
-      margin-top: 1rem;
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.85rem 1rem;
-      background: linear-gradient(135deg, #FFF8E1, #FFF3C4);
+
+    .doc-modal-body { padding: 0 1.5rem 1.5rem; }
+    .doc-modal-desc {
+      font-size: 0.95rem; line-height: 1.85;
+      color: var(--text-secondary); font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+    .doc-modal-desc strong { color: var(--text-primary); font-weight: 600; }
+    .doc-modal-chips {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;
+    }
+    .doc-chip {
+      background: rgba(212,160,23,0.1);
       border: 1px solid rgba(212,160,23,0.3);
-      border-radius: 6px;
+      color: #8A6200;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.06em; padding: 0.3rem 0.8rem;
+      border-radius: 20px;
     }
-    .doc-caption-icon { font-size: 1.1rem; flex-shrink: 0; }
-    .doc-caption-text { font-size: 0.8rem; font-weight: 600; color: #8A6200; line-height: 1.5; }
+    .doc-modal-details {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .doc-modal-detail-row {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      padding: 0.9rem 1rem;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+    }
+    .dmd-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .dmd-title { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.1rem; }
+    .dmd-sub { font-size: 0.78rem; color: var(--text-muted); line-height: 1.55; }
 
     /* ─── CTA ─── */
     .cta-section {
@@ -1191,7 +1285,8 @@
 
       .testimonials-grid { grid-template-columns: 1fr; gap: 1.25rem; }
 
-      .docs-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .doc-cards-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+      .doc-modal-images.two-col { grid-template-columns: 1fr; }
       .cta-title { font-size: clamp(2rem, 7vw, 3.5rem); }
       .cta-sub { font-size: 0.9rem; }
       .cta-buttons { flex-direction: column; align-items: center; }
@@ -1699,56 +1794,62 @@
     <h2 class="section-title">Real Results. Documented Progress.</h2>
     <div class="section-divider"></div>
     <p style="font-size:1rem;color:var(--text-secondary);line-height:1.8;font-weight:300;">
-      A testament to the quality of instruction provided — a student enrolled at <strong>Jinan University, Guangzhou</strong> demonstrated measurable academic improvement through dedicated Mandarin tutoring, achieving higher examination grades in her university coursework.
+      A growing library of real teaching sessions and student outcomes — click any card to view the full details and documentation.
     </p>
   </div>
 
-  <div class="docs-grid">
-    <div class="doc-story reveal">
-      <p class="doc-story-text">
-        This student was taking <strong>Mandarin as a formal university subject</strong> at Jinan University (暨南大学) in Guangzhou, China — one of China's most prestigious institutions for overseas Chinese education. She sought additional tutoring support to strengthen her grasp of the material and improve her academic standing.
-      </p>
-      <p class="doc-story-text">
-        Under Novelyne's structured guidance, the student developed a stronger command of Mandarin grammar, character recognition, and academic writing — directly translating into <strong>improved examination scores</strong> in her university assessments.
-      </p>
+  <div class="doc-cards-grid">
 
-      <div class="doc-detail-cards">
-        <div class="doc-detail-card">
-          <div class="doc-detail-icon">🎓</div>
-          <div>
-            <div class="doc-detail-title">Jinan University, Guangzhou</div>
-            <div class="doc-detail-sub">暨南大学 · One of China's leading universities for Mandarin education, attended by international and overseas Chinese students.</div>
-          </div>
-        </div>
-        <div class="doc-detail-card">
-          <div class="doc-detail-icon">📈</div>
-          <div>
-            <div class="doc-detail-title">Improved Examination Grades</div>
-            <div class="doc-detail-sub">The student achieved a measurable increase in her Mandarin examination results following structured tutoring sessions with Novelyne.</div>
-          </div>
-        </div>
-        <div class="doc-detail-card">
-          <div class="doc-detail-icon">📋</div>
-          <div>
-            <div class="doc-detail-title">Formal University Assessment</div>
-            <div class="doc-detail-sub">Results verified through official university examination documentation — reflecting genuine academic progress, not just a standardized test score.</div>
-          </div>
+    <!-- Card 1: J&T Express -->
+    <div class="doc-card reveal" onclick="openModal('jt')">
+      <img class="doc-card-thumb" src="jt-class-1.jpg" alt="J&T Express Mandarin class session" loading="lazy" />
+      <div class="doc-card-body">
+        <div class="doc-card-tag">Corporate Training</div>
+        <div class="doc-card-title">Basic Mandarin for J&T Express Team</div>
+        <div class="doc-card-desc">Group Mandarin class covering HSK 2 fundamentals — conversations, vocabulary, and practical Hanzi usage for workplace communication.</div>
+        <div class="doc-card-footer">
+          <span class="doc-card-meta">HSK 2 · Group Session</span>
+          <span class="doc-card-cta">View details</span>
         </div>
       </div>
     </div>
 
-    <div class="doc-image-col reveal">
-      <div class="doc-image-frame">
-        <div class="doc-image-label">Official Examination Documentation</div>
-        <img src="student-doc.jpg" alt="Student examination results from Jinan University Guangzhou showing improved Mandarin grades" loading="lazy" />
-        <div class="doc-image-caption">
-          <div class="doc-caption-icon">✦</div>
-          <div class="doc-caption-text">Jinan University (暨南大学) · Guangzhou, China<br>Student examination results — Mandarin coursework</div>
+    <!-- Card 2: Jinan University -->
+    <div class="doc-card reveal" onclick="openModal('jinan')">
+      <div class="doc-card-thumb-placeholder">🎓</div>
+      <div class="doc-card-body">
+        <div class="doc-card-tag">University Student</div>
+        <div class="doc-card-title">Jinan University Student — Grade Improvement</div>
+        <div class="doc-card-desc">A student at Jinan University, Guangzhou achieved measurable examination grade improvement following structured one-on-one Mandarin tutoring.</div>
+        <div class="doc-card-footer">
+          <span class="doc-card-meta">暨南大学 · Guangzhou</span>
+          <span class="doc-card-cta">View details</span>
         </div>
       </div>
     </div>
+
   </div>
 </section>
+
+<!-- MODAL OVERLAY -->
+<div class="doc-modal-overlay" id="docModalOverlay" onclick="closeModalOutside(event)">
+  <div class="doc-modal" id="docModal">
+    <div class="doc-modal-header">
+      <div class="doc-modal-header-left">
+        <div class="doc-modal-tag" id="modalTag"></div>
+        <div class="doc-modal-title" id="modalTitle"></div>
+      </div>
+      <div class="doc-modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div class="doc-modal-images" id="modalImages"></div>
+    <div class="doc-modal-body">
+      <p class="doc-modal-desc" id="modalDesc"></p>
+      <div class="doc-modal-chips" id="modalChips"></div>
+      <div class="doc-modal-details" id="modalDetails"></div>
+    </div>
+  </div>
+</div>
+
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
@@ -1928,6 +2029,68 @@
     });
   }, { threshold: 0.4 });
   document.querySelectorAll('.stats-strip, .hero-visual').forEach(s => countObs.observe(s));
+
+  // ─── DOCUMENTATION MODAL ───
+  const modalData = {
+    jt: {
+      tag: 'Corporate Training · J&T Express',
+      title: 'Basic Mandarin for J&T Express Team',
+      images: ['jt-class-1.jpg', 'jt-class-2.jpg'],
+      twoCol: true,
+      desc: `Novelyne Liem conducted a <strong>group Mandarin training session</strong> for employees of J&T Express — one of Southeast Asia's leading logistics companies. The session focused on practical, workplace-ready Mandarin covering <strong>HSK 2 level</strong> content, equipping the team with foundational communication skills for real-world professional contexts. Students engaged in active conversation practice, vocabulary building, and the practical use of Hanzi (汉字) characters in daily and business communication.`,
+      chips: ['HSK 2', 'Group Session', 'Conversational Mandarin', 'Vocabulary', 'Hanzi Usage', 'Corporate Training'],
+      details: [
+        { icon: '🏢', title: 'Client — J&T Express', sub: 'A major logistics company with extensive operations across Southeast Asia, including Indonesia.' },
+        { icon: '📚', title: 'Curriculum — HSK 2 Foundations', sub: 'Covering basic conversations, essential vocabulary, grammar patterns, and practical usage of Chinese characters (汉字) in a professional setting.' },
+        { icon: '🗣️', title: 'Focus Areas', sub: 'Spoken conversation fluency · Vocabulary retention · Hanzi recognition and usage · Professional Mandarin for the workplace.' },
+        { icon: '👥', title: 'Format — Group Class', sub: 'Interactive group instruction with participatory exercises, role-play scenarios, and collaborative learning activities.' },
+      ]
+    },
+    jinan: {
+      tag: 'University Student · Jinan University',
+      title: 'Grade Improvement — Jinan University, Guangzhou',
+      images: ['student-doc.jpg'],
+      twoCol: false,
+      desc: `A student enrolled at <strong>Jinan University (暨南大学)</strong> in Guangzhou, China — one of China's most prestigious institutions for overseas Chinese education — sought structured tutoring support to strengthen her academic standing in Mandarin coursework. Under Novelyne's guidance, the student developed a stronger command of Mandarin grammar, character recognition, and academic writing, directly translating into <strong>improved examination scores</strong> verified through official university documentation.`,
+      chips: ['University Coursework', 'One-on-One Tutoring', 'Grammar', 'Academic Writing', 'Exam Preparation'],
+      details: [
+        { icon: '🎓', title: 'Institution — Jinan University (暨南大学)', sub: 'Guangzhou, China — one of China\'s leading universities for overseas Chinese education, recognized internationally for academic rigor.' },
+        { icon: '📈', title: 'Outcome — Measurable Grade Improvement', sub: 'The student achieved a verifiable increase in her Mandarin examination results following structured tutoring sessions with Novelyne.' },
+        { icon: '📋', title: 'Documentation', sub: 'Results verified through official university examination records — reflecting genuine academic progress beyond standardized test scores.' },
+        { icon: '🔍', title: 'Areas Covered', sub: 'Mandarin grammar · Character recognition · Academic writing · Reading comprehension · Examination strategy.' },
+      ]
+    }
+  };
+
+  function openModal(key) {
+    const d = modalData[key];
+    document.getElementById('modalTag').textContent = d.tag;
+    document.getElementById('modalTitle').textContent = d.title;
+    document.getElementById('modalDesc').innerHTML = d.desc;
+
+    const imgEl = document.getElementById('modalImages');
+    imgEl.className = 'doc-modal-images ' + (d.twoCol ? 'two-col' : 'one-col');
+    imgEl.innerHTML = d.images.map(src => `<img src="${src}" alt="${d.title}" loading="lazy" />`).join('');
+
+    document.getElementById('modalChips').innerHTML = d.chips.map(c => `<span class="doc-chip">${c}</span>`).join('');
+    document.getElementById('modalDetails').innerHTML = d.details.map(r =>
+      `<div class="doc-modal-detail-row"><div class="dmd-icon">${r.icon}</div><div><div class="dmd-title">${r.title}</div><div class="dmd-sub">${r.sub}</div></div></div>`
+    ).join('');
+
+    document.getElementById('docModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('docModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('docModalOverlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 
 </body>
