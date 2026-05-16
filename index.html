@@ -854,6 +854,84 @@
     .achievement-title { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
     .achievement-sub { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; }
 
+    /* ─── STUDENT DOCUMENTATION ─── */
+    .student-docs { background: var(--bg-primary); }
+    .student-docs-header { max-width: 620px; margin-bottom: 3.5rem; }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .doc-story {
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .doc-story-text {
+      font-size: 1rem; line-height: 1.85;
+      color: var(--text-secondary); font-weight: 300;
+    }
+    .doc-story-text strong { color: var(--text-primary); font-weight: 600; }
+
+    .doc-detail-cards {
+      display: flex; flex-direction: column; gap: 0.85rem;
+    }
+    .doc-detail-card {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.1rem 1.25rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent-gold);
+      border-radius: 6px;
+    }
+    .doc-detail-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .doc-detail-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.15rem; }
+    .doc-detail-sub { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    .doc-image-col { position: relative; }
+
+    .doc-image-frame {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow), var(--glow);
+      position: relative;
+    }
+    .doc-image-frame::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
+      border-radius: 12px 12px 0 0;
+    }
+    .doc-image-label {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 0.85rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .doc-image-label::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--accent-gold); border-radius: 50%;
+    }
+    .doc-image-frame img {
+      width: 100%; border-radius: 6px;
+      display: block;
+      border: 1px solid var(--border);
+    }
+    .doc-image-caption {
+      margin-top: 1rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.85rem 1rem;
+      background: linear-gradient(135deg, #FFF8E1, #FFF3C4);
+      border: 1px solid rgba(212,160,23,0.3);
+      border-radius: 6px;
+    }
+    .doc-caption-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .doc-caption-text { font-size: 0.8rem; font-weight: 600; color: #8A6200; line-height: 1.5; }
+
     /* ─── CTA ─── */
     .cta-section {
       background: linear-gradient(135deg, var(--bg-deep) 0%, #2A2616 60%, #1C1A12 100%);
@@ -1089,7 +1167,7 @@
 
       .testimonials-grid { grid-template-columns: 1fr; gap: 1.25rem; }
 
-      .cta-section { padding: 5rem 5%; }
+      .docs-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .cta-title { font-size: clamp(2rem, 7vw, 3.5rem); }
       .cta-sub { font-size: 0.9rem; }
       .cta-buttons { flex-direction: column; align-items: center; }
@@ -1157,6 +1235,7 @@
     <li><a href="#services">Services</a></li>
     <li><a href="#approach">Approach</a></li>
     <li><a href="#testimonials">Students</a></li>
+    <li><a href="#documentation">Docs</a></li>
     <li><a href="#contact" class="nav-cta">Book a Session</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
@@ -1170,6 +1249,7 @@
   <a href="#services" class="mobile-link">Services</a>
   <a href="#approach" class="mobile-link">Approach</a>
   <a href="#testimonials" class="mobile-link">Students</a>
+  <a href="#documentation" class="mobile-link">Documentation</a>
   <a href="#contact" class="mobile-link mobile-cta">Book a Session</a>
 </div>
 
@@ -1562,6 +1642,64 @@
     <div>
       <div class="achievement-title">100% Comprehensive HSK Pass Rate</div>
       <div class="achievement-sub">All 10+ students taught by Novelyne Liem have successfully passed their HSK examinations — across HSK 3, HSK 4, and HSK 5 — with comprehensive passing scores.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDENT DOCUMENTATION -->
+<section class="student-docs" id="documentation">
+  <div class="student-docs-header reveal">
+    <div class="section-label">Student Documentation</div>
+    <h2 class="section-title">Real Results. Documented Progress.</h2>
+    <div class="section-divider"></div>
+    <p style="font-size:1rem;color:var(--text-secondary);line-height:1.8;font-weight:300;">
+      A testament to the quality of instruction provided — a student enrolled at <strong>Jinan University, Guangzhou</strong> demonstrated measurable academic improvement through dedicated Mandarin tutoring, achieving higher examination grades in her university coursework.
+    </p>
+  </div>
+
+  <div class="docs-grid">
+    <div class="doc-story reveal">
+      <p class="doc-story-text">
+        This student was taking <strong>Mandarin as a formal university subject</strong> at Jinan University (暨南大学) in Guangzhou, China — one of China's most prestigious institutions for overseas Chinese education. She sought additional tutoring support to strengthen her grasp of the material and improve her academic standing.
+      </p>
+      <p class="doc-story-text">
+        Under Novelyne's structured guidance, the student developed a stronger command of Mandarin grammar, character recognition, and academic writing — directly translating into <strong>improved examination scores</strong> in her university assessments.
+      </p>
+
+      <div class="doc-detail-cards">
+        <div class="doc-detail-card">
+          <div class="doc-detail-icon">🎓</div>
+          <div>
+            <div class="doc-detail-title">Jinan University, Guangzhou</div>
+            <div class="doc-detail-sub">暨南大学 · One of China's leading universities for Mandarin education, attended by international and overseas Chinese students.</div>
+          </div>
+        </div>
+        <div class="doc-detail-card">
+          <div class="doc-detail-icon">📈</div>
+          <div>
+            <div class="doc-detail-title">Improved Examination Grades</div>
+            <div class="doc-detail-sub">The student achieved a measurable increase in her Mandarin examination results following structured tutoring sessions with Novelyne.</div>
+          </div>
+        </div>
+        <div class="doc-detail-card">
+          <div class="doc-detail-icon">📋</div>
+          <div>
+            <div class="doc-detail-title">Formal University Assessment</div>
+            <div class="doc-detail-sub">Results verified through official university examination documentation — reflecting genuine academic progress, not just a standardized test score.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-image-col reveal">
+      <div class="doc-image-frame">
+        <div class="doc-image-label">Official Examination Documentation</div>
+        <img src="student-doc.jpg" alt="Student examination results from Jinan University Guangzhou showing improved Mandarin grades" loading="lazy" />
+        <div class="doc-image-caption">
+          <div class="doc-caption-icon">✦</div>
+          <div class="doc-caption-text">Jinan University (暨南大学) · Guangzhou, China<br>Student examination results — Mandarin coursework</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
